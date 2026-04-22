@@ -9,11 +9,21 @@ on:
     paths:
       - "main.py"
       - "buildozer.spec"
+      - "buildozer-32bit.spec"
+      - "buildozer-64bit.spec"
       - ".github/workflows/android-apk.yml"
 
 jobs:
   build-apk:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: "armeabi-v7a"
+            spec: "buildozer-32bit.spec"
+          - arch: "arm64-v8a"
+            spec: "buildozer-64bit.spec"
     timeout-minutes: 90
 
     steps:
@@ -45,12 +55,13 @@ jobs:
 
       - name: Build debug APK
         run: |
+          cp "${{ matrix.spec }}" buildozer.spec
           buildozer -v android debug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mortgage-calculator-apk
+          name: mortgage-calculator-apk-${{ matrix.arch }}
           path: bin/*.apk
           if-no-files-found: error
           retention-days: 14
