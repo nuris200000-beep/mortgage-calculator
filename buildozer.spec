@@ -22,14 +22,15 @@ requirements = python3,kivy,kivymd,sdl2_ttf==2.0.15
 
 # (str) Supported orientation (one of landscape, portrait, portrait-reverse,
 # landscape-reverse, all)
-orientation = all
+orientation = portrait
 
 # (bool) Indicate if the application should be fullscreen
 fullscreen = 0
 
 # (str) Android architecture for APK build
 # 32-bit variant by default
-android.arch = armeabi-v7a
+android.arch = arm64-v8a
+android.accept_sdk_license = True
 
 [buildozer]
 # (int) Log level (0 = error only, 1 = info, 2 = debug)
